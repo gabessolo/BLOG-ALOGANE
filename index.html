@@ -1,0 +1,51 @@
+<html>
+<head>
+	<title>EMV</title>
+</head>
+<body>
+	<h1>AUTHENTIFICATION </h1>
+	<h2>SDA </h2>
+	<p>
+	L'autorite de certification (CA:Certificate Authority) possede une paire de cle RSA.<br/>
+	Le CA utilise sa cle prive pour crypter la cle public de l'emetteur (Issuer) de la carte.<br/>
+	
+	L'issuer possede aussi une paire de cle il fournit la cle publique à l'autorite.<br/>
+	L'issuer  demande au CA de crypter celle-ci le cryptogramme obtenu est ensuite stocke dans la carte.<br/>
+	La cle prive du CA n'est pas connu par l'emetteur.<br/>
+	Le tag 90 contient la cle publique de l'emetteur.<br/>
+	Le terminal lors de la phase de lecture des donnees de la carte recupere le certificat publique de l'emetteur.<br/> 
+	l'identifiant de l'autorite de certification(tag 8F) est aussi recupere lors de cette phase.<br/>
+
+	Le terminal decrypte le certificat publique de l'emetteur et obtient la cle publique de l'emetteur.<br/>
+	Avec cette cle publique il peut desormais decrypter.<br/>
+
+	Le tag 93 contient les donnees signe par l'emetteur avec la cle publique precedemment calcule.<br/>
+	Le terminal peut decrypter les donnees statiques de l'application.<br/>
+
+	Les donnees statiques de l'application sont cryptes avec la cle prive de l'emetteur.<br/><br/>
+	Ainsi donc avec la cle publique obtenu apres decryptage du certificat publique de l'emetteur a l'aide de la cle publique de l'autorite
+	il va etre possible de decrypter les donnees statiques de l'application.<br/> cette technique permet de verifier l'authenticite de la carte.<br/>
+	<br/><br/>
+	Selon toutes vraisemblance la carte doit contenir non seulement les donnees crypte par l'emetteur mais aussi les donnees en claires
+	ainsi quand le terminal aura decrypter les donnees crypte il pourra verifier le matching.<br/>
+
+	</p>	
+	<h2>DDA </h2>
+	<p>
+	En mode SDA le terminal commence par decrypter le certificat publique de l'emetteur pour extraire la cle publique
+	de l'emetteur.<br/> 
+	Avec cette cle il va pouvoir decrypter le certificat de la carte.<br/>
+	La carte possede un certificat crypte par l'emetteur de la carte et il est au meme format que le certificat publique de l'emetteur.<br/>
+	Le certificat de la carte contient la cle publique de la carte.<br/>
+	La cle publique et prive d'une carte est unique.<br/> 
+	La partie prive est stocke dans la carte et la partie publique est dans le certificat de la carte.<br/>
+	On pourrait utiliser la cle prive de la carte pour crypter la cle de session qui est unique par transaction.<br/>
+        et transmettre la cle de session crypte a l'issuer pour verification ulterieur de la transaction.<br/>
+	</p>
+	<h3>listes des tags utilisees</h3>
+	<p>tag 90: contient le certificat publique de l'emetteur.<br/>
+	tag 8F: index de l'autorite de certification.<br/>
+	tag 93: contient les donnes signes par l'emetteur.<br/>
+	</p>
+</body>	
+</html>
